@@ -93,4 +93,8 @@ public class FileManager {
         FileGenerator.generateJson(cloudsqlList, InventoryConstants.GCP_CLOUD_SQL_FILE);
     }
 
+    public static void generateKmsKeyFiles(List<KmsKeyVH> keyList) {
+        FileGenerator.generateJson(keyList, "gcp-kmskey.data");
+    }
+
 }

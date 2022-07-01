@@ -40,6 +40,9 @@ public class AssetFileGenerator {
 	CloudSqlInventoryCollector cloudSqlInventoryCollector;
 
 	@Autowired
+	KmsKeyInventoryCollector kmsKeyInventoryCollector;
+
+	@Autowired
 	BigQueryInventoryCollector bigQueryInventoryCollector;
 
 	public void generateFiles(List<String> projects, String filePath) {
@@ -119,6 +122,17 @@ public class AssetFileGenerator {
 				}
 				try {
 					FileManager.generateCloudSqlFiles(cloudSqlInventoryCollector.fetchCloudSqlInventory(project));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+
+			executor.execute(() -> {
+				if (!(isTypeInScope("kmskey"))) {
+					return;
+				}
+				try {
+					FileManager.generateKmsKeyFiles(kmsKeyInventoryCollector.fetchKmsKeysInventory(project));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
